@@ -2,20 +2,24 @@ using UnityEngine;
 
 public class PlayerAnimations : MonoBehaviour
 {
+    Animator playerAnimator;
+    PlayerMovement playerMovement;
+
     void Start()
     {
-        PlayerAnimator = GetComponentInChildren<Animator>();
-        PlayerMovement = GetComponent<PlayerMovement>();
+        playerAnimator = GetComponentInChildren<Animator>();
+        playerMovement = GetComponent<PlayerMovement>();
     }
 
     void Update()
     {
         if (playerMovement.moveInput.magnitude > 0.01f)
         {
-            playerAnimator.SetBool("isWalking", true);
+            playerAnimator.SetBool("IsWalkingForward", true);
         }
         else
         {
-            playerAnimator.SetBool("isWalking", false);
+            playerAnimator.SetBool("IsWalkingForward", false);
         }
+    }
 }
