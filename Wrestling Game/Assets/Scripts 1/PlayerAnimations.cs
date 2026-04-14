@@ -4,6 +4,7 @@ public class PlayerAnimations : MonoBehaviour
 {
     Animator playerAnimator;
     PlayerMovement playerMovement;
+    bool IsJumping = false;
 
     void Start()
     {
@@ -22,9 +23,15 @@ public class PlayerAnimations : MonoBehaviour
             playerAnimator.SetBool("IsWalking", false);
         }
 
-        if (playerMovement.IsJumping)
+        if (playerMovement.IsJumping && !IsJumping)
         {
             playerAnimator.SetTrigger("IsJumping");
+            IsJumping = true;
+            Invoke(nameof(ResetJump), 0.5f);
         }
+    }
+    void ResetJump()
+    {
+        IsJumping = false;
     }
 }
