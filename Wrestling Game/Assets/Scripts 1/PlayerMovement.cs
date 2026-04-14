@@ -16,11 +16,12 @@ public class PlayerMovement : MonoBehaviour
 
     [SerializeField] float speed = 5f;
     [SerializeField] float rotationSmoothTime = 0.1f;
-
     [SerializeField] float jumpHeight = 0.5f;
     bool isGrounded;
     float verticalVelocity = -2.0f;
     float gravity = -9.81f;
+
+    [HideInInspector] public bool IsJumping;
 
     void Awake()
     {
@@ -52,9 +53,14 @@ public class PlayerMovement : MonoBehaviour
 
         if (jumpAction.IsPressed() && isGrounded)
         {
+            IsJumping = true;
             verticalVelocity = Mathf.Sqrt(jumpHeight * -2f * gravity);
         }
-        verticalVelocity += gravity * Time.deltaTime;
+        else
+        {
+            IsJumping = false;
+        }
+            verticalVelocity += gravity * Time.deltaTime;
 
         moveInput = moveAction.ReadValue<Vector2>();
         Vector3 moveDir = Vector3.zero;

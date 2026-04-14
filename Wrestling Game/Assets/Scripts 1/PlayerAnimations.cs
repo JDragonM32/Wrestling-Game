@@ -15,11 +15,16 @@ public class PlayerAnimations : MonoBehaviour
     {
         if (playerMovement.moveInput.magnitude > 0.01f)
         {
-            playerAnimator.SetBool("IsWalkingForward", true);
+            playerAnimator.SetBool("IsWalking", true);
         }
         else
         {
-            playerAnimator.SetBool("IsWalkingForward", false);
+            playerAnimator.SetBool("IsWalking", false);
+        }
+
+        if (playerMovement.IsJumping)
+        {
+            playerAnimator.SetTrigger("IsJumping");
         }
     }
 }
