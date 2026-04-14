@@ -22,6 +22,7 @@ public class PlayerMovement : MonoBehaviour
     float gravity = -9.81f;
 
     [HideInInspector] public bool IsJumping;
+    [HideInInspector] public bool IsAttacking;
 
     void Awake()
     {
@@ -45,11 +46,14 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     { 
-        if (attackAction.WasPressedThisFrame())
+        if (attackAction.WasPressedThisFrame() && isGrounded)
         {
-            
+            IsAttacking = true;
+        } else
+        {
+            IsAttacking = false;
         }
-        isGrounded = playerController.isGrounded;
+            isGrounded = playerController.isGrounded;
         if (isGrounded && verticalVelocity < 0)
         {
             verticalVelocity = -2f;

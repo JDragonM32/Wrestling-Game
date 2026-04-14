@@ -12,6 +12,8 @@ public class AIMutant : MonoBehaviour
 
     bool PlayerInSightRange, PlayerInAttackRange;
     bool walkPointSet;
+    bool IsAttacking = false;
+    bool alreadyAttacking = false;
 
     private void Awake()
     {
@@ -38,6 +40,19 @@ public class AIMutant : MonoBehaviour
 
     void AttackPlayer()
     {
+        agent.SetDestination(transform.position);
+        transform.LookAt(player);
+
+        if (!alreadyAttacking)
+        {
+            IsAttacking = true;
+            alreadyAttacking = true;
+            Invoke(nameof(ResetAttack), 0.05f);
+        }
+        void ResetAttack()
+        {
+            alreadyAttacking = false;
+        }
         Debug.Log("Attacking Player");
     }
 

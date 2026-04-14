@@ -5,6 +5,7 @@ public class PlayerAnimations : MonoBehaviour
     Animator playerAnimator;
     PlayerMovement playerMovement;
     bool IsJumping = false;
+    bool IsAttacking = false;
 
     void Start()
     {
@@ -29,9 +30,20 @@ public class PlayerAnimations : MonoBehaviour
             IsJumping = true;
             Invoke(nameof(ResetJump), 0.5f);
         }
+
+        if (playerMovement.IsAttacking && !IsAttacking)
+        {
+            playerAnimator.SetTrigger("IsAttacking");
+            IsAttacking = true;
+            Invoke(nameof(ResetAttack), 0.1f);
+        }
     }
     void ResetJump()
     {
         IsJumping = false;
+    }
+    void ResetAttack()
+    {
+        IsAttacking = false;
     }
 }
