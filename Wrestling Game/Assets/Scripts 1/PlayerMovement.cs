@@ -45,6 +45,10 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     { 
+        if (attackAction.WasPressedThisFrame())
+        {
+            
+        }
         isGrounded = playerController.isGrounded;
         if (isGrounded && verticalVelocity < 0)
         {
