@@ -3,7 +3,17 @@ guid: d33dd6ad4d344a7409d8479d7340f4bc
 ModelImporter:
   serializedVersion: 24200
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: pumpkinHulk_diffuse
+    second: {fileID: 2800000, guid: c42e769cc4c67874389cb3dcfb4ee759, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: pumpkinHulk_normal
+    second: {fileID: 2800000, guid: 1e1d0be3dfe05f74a92da2d9fe17f85c, type: 3}
   materials:
     materialImportMode: 2
     materialName: 0
