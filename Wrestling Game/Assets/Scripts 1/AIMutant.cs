@@ -4,20 +4,27 @@ using UnityEngine.AI;
 public class AIMutant : MonoBehaviour
 {
     NavMeshAgent agent;
+    Animator aiAnimator;
     [SerializeField] float attackRange, sightRange;
     [SerializeField] Transform player;
     [SerializeField] LayerMask playerLayer, groundLayer;
     [SerializeField] float patrolRange;
     Vector3 walkPoint;
+    public float nextAttackTime;
+    public float attackCooldown = 2f;
+
+    public int AImaxHealth = 100;
+    int AIcurrentHealth;
 
     bool PlayerInSightRange, PlayerInAttackRange;
     bool walkPointSet;
-    bool IsAttacking = false;
     bool alreadyAttacking = false;
 
     private void Awake()
     {
         agent = GetComponent<NavMeshAgent>();
+        aiAnimator = GetComponentInChildren<Animator>();
+        AIcurrentHealth = AImaxHealth;
     }
 
     private void Update()
@@ -28,6 +35,15 @@ public class AIMutant : MonoBehaviour
         if (!PlayerInSightRange && !PlayerInAttackRange) Patrol();
         if (PlayerInSightRange && !PlayerInAttackRange) ChasePlayer();
         if (PlayerInSightRange && PlayerInAttackRange) AttackPlayer();
+
+        float distance = Vector3.Distance(player.position, transform.position);
+        if (distance <= attackRange)
+        {
+            agent.isStopped = true;
+            if (Time.time >= nextAttackTime)
+                AttackPlayer();
+                nextAttackTime = Time.time + attackCooldown;
+        }
     }
 
     void ChasePlayer()
@@ -45,15 +61,16 @@ public class AIMutant : MonoBehaviour
 
         if (!alreadyAttacking)
         {
-            IsAttacking = true;
+            aiAnimator.SetTrigger("IsAttacking");
             alreadyAttacking = true;
-            Invoke(nameof(ResetAttack), 0.05f);
+            Invoke(nameof(ResetAttack), 2f);
         }
         void ResetAttack()
         {
             alreadyAttacking = false;
         }
         Debug.Log("Attacking Player");
+        aiAnimator.Play("Mutant Punch");
     }
 
     void Patrol()
@@ -67,6 +84,12 @@ public class AIMutant : MonoBehaviour
         {
             agent.SetDestination(walkPoint);
         }
+    }
+
+    void ChangeHealth (int amount)
+    {
+        AIcurrentHealth = Mathf.Clamp(AIcurrentHealth + amount, 0, AImaxHealth);
+        Debug.Log(AIcurrentHealth + "/" + AImaxHealth);
     }
 
     private void SearchWalkPoint()

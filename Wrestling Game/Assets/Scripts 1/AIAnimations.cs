@@ -6,7 +6,6 @@ public class AIAnimations : MonoBehaviour
     Animator aiAnimator;
     NavMeshAgent agent;
 
-    bool IsAttacking = false;
     void Start()
     {
         aiAnimator = GetComponentInChildren<Animator>();
@@ -19,19 +18,10 @@ public class AIAnimations : MonoBehaviour
         {
             aiAnimator.SetBool("IsWalking", true);
             Debug.Log("Walking");
-        } else
+        }
+        else
         {
             aiAnimator.SetBool("IsWalking", false);
         }
-        if (IsAttacking == true) {
-            aiAnimator.SetTrigger("IsAttacking");
-            IsAttacking = true;
-            Invoke(nameof(ResetAttack), 0.1f);
-        }
-    }
-
-    void ResetAttack()
-    {
-        IsAttacking = false;
     }
 }

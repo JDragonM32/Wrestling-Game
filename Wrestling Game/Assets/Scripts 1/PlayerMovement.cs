@@ -12,6 +12,9 @@ public class PlayerMovement : MonoBehaviour
     InputAction attackAction;
     float currentVelocity;
 
+    public int maxHealth = 100;
+    int currentHealth;
+
     public Vector2 moveInput;
 
     [SerializeField] float speed = 5f;
@@ -42,6 +45,7 @@ public class PlayerMovement : MonoBehaviour
     void Start()
     {
         playerController = GetComponent<CharacterController>();
+        currentHealth = maxHealth;
     }
 
     void Update()
@@ -83,5 +87,11 @@ public class PlayerMovement : MonoBehaviour
         }
         Vector3 velocity = moveDir * speed + Vector3.up * verticalVelocity * gravity * -1;
         playerController.Move(velocity * Time.deltaTime);
+    }
+
+    void ChangeHealth(int amount)
+    {
+        currentHealth = Mathf.Clamp(currentHealth + amount, 0, maxHealth);
+        Debug.Log(currentHealth + "/" + maxHealth);
     }
 }
